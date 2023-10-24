@@ -195,15 +195,19 @@ JOIN Ciudad UbiC ON U.CiudadID = UbiC.CiudadID;
 #campana
 INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de estudio');
 INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de ayuda');
+
 #carrerainteres
 INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, NULL), (NULL, 'Psicología (LPS)');
 INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Derecho (LED)');
+
 #leads
 INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `PaisID`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `GradoID`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `PromotorOriginal`, `NombrePromOrigi`, `PromotorActual`, `NombrePromAct`, `EstadoLeadID`, `Seguimiento`, `BecaOfrecida`, `NumeroLista`, `Comentarios`) 
 VALUES (NULL, 'marcos ariel', '77752013', NULL, 'marc@correo.com', NULL, '2023-10-23', '21', 'CBTIS', '1', '1', 'P-PROSPECTO', '1', '2', 'Psicología (LPS)', 'LPS', '1', '2024-1', '1', 'PAUTA', '2', '2', NULL, '1', NULL, '1', NULL, '15', NULL, NULL);
+
 #semestreingreso
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'cuarto');
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'quinto');
+
 #leads
 INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, 
 `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, 
@@ -213,24 +217,32 @@ INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `Corre
  VALUES (NULL, 'obeb ariel', '7778596321', NULL, 'obeb@correo.com', NULL, '2023-10-25', '22', 'CETYS', NULL, 
  'NC-NO CONTESTA', '1', 'BACHILLERATO', 'Derecho (LED)', 'INS', '1', '2024', '1', 'PAUTA', NULL, 'ESTUDIANTE', 
  'ximena', 'B_PERSONAL', '2023-10-25', '15', '1', NULL, 'ximena', '2023-10-25', NULL, 'ximena', '2023-10-21', NULL);
+INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`) VALUES ('2', 'Emiliano Cuevas', '7777412210', NULL, 'emi@correo.com', NULL, '2023-10-26', '20', 'CBTIS', NULL, 'AU-ALUMNO UNINTER', '1', 'ESPECIALIDAD', 'Pedagogía (LPE)', 'INZO', '2', '2024', '1', 'ORGÁNICO', '1', 'FAMILIAR DE ALGÚN ESTUDIANTE', 'ximena', 'REDES SOCIALES META FACEBOOK', '2023-10-26', '50.00', '2', '1', 'ximena', '2023-10-26', '1', 'ximena', '2023-10-26', NULL);
+
 #mediodecontacto
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'correo');
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'llamada');
+
 #promotor
 INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'Yazmin', 'yazmin@correo.com', '123456');
 INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456');
+
 #reasignaciones
 INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '3', '1', '1', '2023-10-25 10:52:44');
 INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '3', '1', '1', '2023-10-27 11:02:17');
+
 #semestreingreso
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'segundo semestre');
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'primer semestre');
+
 #pais
 INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'México');
 INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'Colombia');
+
 #estado
 INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Morelos', '1');
 INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Amazonas', '2');
+
 #ciudad
 INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'cuernavaca', '1');
 INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'bogota', '2');
