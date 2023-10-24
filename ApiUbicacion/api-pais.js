@@ -4,21 +4,23 @@ const baseUrl = "https://restcountries.com/v3.1/";
 // Endpoint para obtener la lista de todos los países
 const endpoint = "all";
 
-// Función para agregar filas a la tabla
-function addCountryToTable(countryName) {
-  const countryList = document.getElementById("country-list");
-  const newRow = countryList.insertRow();
-  const cell = newRow.insertCell(0);
-  cell.innerHTML = countryName;
+// Función para agregar opciones al select
+function addCountryToSelect(countryName) {
+  const countrySelect = document.getElementById("country-select");
+  const option = document.createElement("option");
+  option.value = countryName;
+  option.textContent = countryName;
+  countrySelect.appendChild(option);
 }
 
 // Realiza una solicitud GET a la API
 fetch(baseUrl + endpoint)
   .then(response => response.json())
   .then(data => {
-    // Obtén solo los nombres de los países y agrégalos a la tabla
+    // Obtén solo los nombres de los países y agrégalos al select
     data.forEach(country => {
-      addCountryToTable(country.name.common);
+      const countryName = country.name.common;
+      addCountryToSelect(countryName);
     });
   })
   .catch(error => {
