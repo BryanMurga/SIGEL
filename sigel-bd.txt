@@ -1,0 +1,190 @@
+DROP DATABASE pruebasdesarrollo;
+CREATE DATABASE pruebasdesarrollo;
+USE pruebasdesarrollo;
+
+-- Crear la tabla "Pais"
+CREATE TABLE Pais (
+    PaisID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255)
+);
+
+-- Crear la tabla "Estado"
+CREATE TABLE Estado (
+    EstadoID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255),
+    PaisID INT,
+    FOREIGN KEY (PaisID) REFERENCES Pais(PaisID)
+);
+
+-- Crear la tabla "Ciudad"
+CREATE TABLE Ciudad (
+    CiudadID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255),
+    EstadoID INT,
+    FOREIGN KEY (EstadoID) REFERENCES Estado(EstadoID)
+);
+
+-- Crear la tabla "Ubicacion"
+CREATE TABLE Ubicacion (
+    UbicacionID INT AUTO_INCREMENT PRIMARY KEY,
+    PaisID INT,
+    EstadoID INT,
+    CiudadID INT,
+    FOREIGN KEY (PaisID) REFERENCES Pais(PaisID),
+    FOREIGN KEY (EstadoID) REFERENCES Estado(EstadoID),
+    FOREIGN KEY (CiudadID) REFERENCES Ciudad(CiudadID)
+);
+
+
+-- Crear la tabla "Promotor"
+CREATE TABLE Promotor (
+    PromotorID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255),
+    Correo VARCHAR(255),
+    Passw VARCHAR(255)
+);
+
+-- Crear la tabla "Leads"
+CREATE TABLE Leads (
+    LeadID INT AUTO_INCREMENT PRIMARY KEY,
+    NombreCompleto VARCHAR(255),
+    Telefono VARCHAR(20),
+    Telefono2 VARCHAR(20),
+    CorreoElectronico VARCHAR(255),
+    CorreoElectronico2 VARCHAR(255),
+    FechaPrimerContacto DATE,
+    Edad INT(3),
+    EscuelaProcedencia VARCHAR(255),
+    UbicacionID INT,
+    PSeguimiento ENUM('AU-ALUMNO UNINTER','INSC-INSCRIPCIÓIN','NC-NO CONTESTA', 'NI-NO INTERESA',
+                      'P-PROSPECTO','PI-INSCRIPCIÓN', 'PS-SEGUIMIENTO','SC-SIN CONTACTO','PU-PERSONAL UNINTER','DU-DUPLICADO','DI-DATO NO VALIDO','BA-BAJA ALUMNO', 'VACIO'),
+    CarreraInteresID INT,
+    Grado ENUM('SECUNDARIA','BACHILLERATO','PREPA-A','LIC/ING','ESPECIALIDAD','DIPLOMADO','MAESTRIA','DOCTORADO','NO ESPECIFICA'),
+    Programa ENUM('Psicología (LPS)','Derecho (LED)','Pedagogía (LPE)','Ciencias Políticas y Gestión Pública (LCP)',
+                  'Relaciones Internacionales (LRI)','Relaciones Internacionales y Economía (RIEC)','Relaciones Internacionales y Ciencias Políticas (RICP)',
+                  'Idiomas (LID)','Comunicación (LCO)','Comunicación Y Relaciones Públicas (CORP)','Civil (ICI)','Mecatrónica (IME)','Mecánica Industrial (IMI)',
+                  'Industrial y de Sistemas de Calidad (IISCA)','Sistemas Computacionales (ISC)','Ambiental (IAM)','Arquitectura(ARQ)','Comercio Exterior (LCE)',
+                  'Economía y Finanzas (LEF)','Mercadotecnia (LEM)','Mercadotecnia y Publicidad (LEMP)','Psicología Organizacional (LPO)','Administración de Empresas Turísticas (LAET)',
+                  'Administración de Empresas (LAE)','Administración de Negocios Internacionales (LANI)','Administración Pública (LAP)','Administración y Mercadotecnia (LAM)',
+                  'Diseño de Modas y Tendencias Internacionales (LDM)','Diseño Industrial (LDI)','Diseño Gráfico (LDG)','Animación y Diseño Digital (LADD)',
+                  'Licenciatura Ejecutiva en Gestión Empresarial(LEGE)','Licenciatura Ejecutiva en Mercadotecnia(LEMK)','Licenciatura Ejecutiva en Administración de Negocios Internacionales(LEANI)',
+                  'Licenciatura Ejecutiva en Administración y Mercadotecnia (LEAM)','Licenciatura en Ejecutiva Mercadotecnia y Publicidad (LEMKP)','Licenciatura en Ejecutiva Comercio Exterior (LECE)', 'OTRO'),
+    EstatusInsc ENUM('INS','INZO','REZA'),
+    SemestreIngresoID INT,
+    Ciclo VARCHAR(10),
+    CampanaID INT,
+    IsOrganic ENUM('PAUTA', 'ORGÁNICO', '') NOT NULL DEFAULT '',
+    MedioDeContactoID INT,
+    -- referido
+    TipoReferido ENUM('ESTUDIANTE','FAMILIAR DE ALGÚN ESTUDIANTE', 'PERSONAL UNINTER', 'NINGUNO'),
+    NombreReferido VARCHAR(100),
+    DondeObtDato ENUM('B_AFC','B_EMPRESAS','B_ESTRATEGIA VACACIONES EQUI','B_PERSONAL','B_POSGRADOS','BARRIDO BASE','BARRIDO EGRESADOS',
+                      'BASE EGRESADOS','BASE FAMILIAR','CLIENGO','ESTRATEGIA EQUIPO MORADO','EXPO EDUCATIVA','REDES SOCIALES META FACEBOOK',
+                      'REDES SOCIALES META INSTAGRAM', 'LANDING','LANDING CARRERAS','LANDING FORMULARIO','LANDING TOT','LLAMADA UNINTER','OPEN SCHOOL ESPECIAL POR CONVENIO CON EMPRESA','VISITA UNINTER'),
+    FechaInscripcion DATE,
+    BecaOfrecida DECIMAL(10, 2),
+    NumeroLista INT,
+    PromotorOriginal INT,
+    NombrePromOrigi VARCHAR (255),
+    FechaPromotorOriginal DATE,
+    PromotorActual INT,
+    NombrePromAct VARCHAR (255),
+    FechaPromotorActual DATE,
+    Comentarios TEXT,
+    Contacto INT
+);
+
+-- Crear la tabla "CarreraInteres"
+CREATE TABLE CarreraInteres (
+    CarreraID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255)
+);
+
+-- Crear la tabla "Contacto"
+CREATE TABLE Contacto (
+	ContactoID INT AUTO_INCREMENT PRIMARY KEY,
+    FechaContacto DATE,
+    Comentario VARCHAR(255)
+);
+
+-- Crear la tabla "SemestreIngreso"
+CREATE TABLE SemestreIngreso (
+    SemestreID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255)
+);
+
+-- Crear la tabla "Campana"
+CREATE TABLE Campana (
+    CampanaID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255)
+);
+
+-- Crear la tabla "MedioDeContacto"
+CREATE TABLE MedioDeContacto (
+    MedioID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255)
+);
+
+-- Crear la tabla "Reasignaciones"
+CREATE TABLE Reasignaciones (
+    ReasignacionID INT AUTO_INCREMENT PRIMARY KEY,
+    LeadID INT,
+    PromotorAnterior INT,
+    PromotorNuevo INT,
+    FechaReasignacion DATETIME
+);
+
+-- Agregar la relación entre Leads y Ubicacion
+ALTER TABLE Leads
+ADD FOREIGN KEY (UbicacionID) REFERENCES Ubicacion(UbicacionID);
+
+-- Agregar la relación entre Leads y CarreraInteres
+ALTER TABLE Leads
+ADD FOREIGN KEY (CarreraInteresID) REFERENCES CarreraInteres(CarreraID);
+
+-- Agregar la relación entre Leads y SemestreIngreso
+ALTER TABLE Leads
+ADD FOREIGN KEY (SemestreIngresoID) REFERENCES SemestreIngreso(SemestreID);
+
+-- Agregar la relación entre Leads y Campana
+ALTER TABLE Leads
+ADD FOREIGN KEY (CampanaID) REFERENCES Campana(CampanaID);
+
+-- Agregar la relación entre Leads y MedioDeContacto
+ALTER TABLE Leads
+ADD FOREIGN KEY (MedioDeContactoID) REFERENCES MedioDeContacto(MedioID);
+
+-- Agregar la relación entre Leads y PromotorOriginal
+ALTER TABLE Leads
+ADD FOREIGN KEY (PromotorOriginal) REFERENCES Promotor(PromotorID);
+
+-- Agregar la relación entre Leads y PromotorActual
+ALTER TABLE Leads
+ADD FOREIGN KEY (PromotorActual) REFERENCES Promotor(PromotorID);
+
+-- Agregar la relación entre Reasignaciones y Leads
+ALTER TABLE Reasignaciones
+ADD FOREIGN KEY (LeadID) REFERENCES Leads(LeadID);
+
+-- Agregar la relación entre Reasignaciones y PromotorAnterior
+ALTER TABLE Reasignaciones
+ADD FOREIGN KEY (PromotorAnterior) REFERENCES Promotor(PromotorID);
+
+-- Agregar la relación entre Reasignaciones y PromotorNuevo
+ALTER TABLE Reasignaciones
+ADD FOREIGN KEY (PromotorNuevo) REFERENCES Promotor(PromotorID);
+
+-- Agregar la relación entre Leads y Contactos
+ALTER TABLE Leads
+ADD FOREIGN KEY (Contacto) REFERENCES Contacto(ContactoID);
+
+SELECT
+    L.NombreCompleto,
+    UbiP.Nombre AS Pais,
+    UbiE.Nombre AS Estado,
+    UbiC.Nombre AS Ciudad
+FROM Leads L
+JOIN Ubicacion U ON L.UbicacionID = U.UbicacionID
+JOIN Pais UbiP ON U.PaisID = UbiP.PaisID
+JOIN Estado UbiE ON U.EstadoID = UbiE.EstadoID
+JOIN Ciudad UbiC ON U.CiudadID = UbiC.CiudadID;
