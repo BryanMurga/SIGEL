@@ -195,15 +195,15 @@ JOIN Ciudad UbiC ON U.CiudadID = UbiC.CiudadID;
 #campana
 INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de estudio');
 INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de ayuda');
+
 #carrerainteres
 INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, NULL), (NULL, 'Psicología (LPS)');
 INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Derecho (LED)');
-#leads
-INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `PaisID`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `GradoID`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `PromotorOriginal`, `NombrePromOrigi`, `PromotorActual`, `NombrePromAct`, `EstadoLeadID`, `Seguimiento`, `BecaOfrecida`, `NumeroLista`, `Comentarios`) 
-VALUES (NULL, 'marcos ariel', '77752013', NULL, 'marc@correo.com', NULL, '2023-10-23', '21', 'CBTIS', '1', '1', 'P-PROSPECTO', '1', '2', 'Psicología (LPS)', 'LPS', '1', '2024-1', '1', 'PAUTA', '2', '2', NULL, '1', NULL, '1', NULL, '15', NULL, NULL);
+
 #semestreingreso
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'cuarto');
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'quinto');
+
 #leads
 INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, 
 `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, 
@@ -213,24 +213,106 @@ INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `Corre
  VALUES (NULL, 'obeb ariel', '7778596321', NULL, 'obeb@correo.com', NULL, '2023-10-25', '22', 'CETYS', NULL, 
  'NC-NO CONTESTA', '1', 'BACHILLERATO', 'Derecho (LED)', 'INS', '1', '2024', '1', 'PAUTA', NULL, 'ESTUDIANTE', 
  'ximena', 'B_PERSONAL', '2023-10-25', '15', '1', NULL, 'ximena', '2023-10-25', NULL, 'ximena', '2023-10-21', NULL);
+
 #mediodecontacto
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'correo');
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'llamada');
+
 #promotor
 INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'Yazmin', 'yazmin@correo.com', '123456');
 INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456');
+
 #reasignaciones
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '3', '1', '1', '2023-10-25 10:52:44');
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '3', '1', '1', '2023-10-27 11:02:17');
+INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-10-25');
+INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-10-27 11:02:17');
+
 #semestreingreso
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'segundo semestre');
 INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'primer semestre');
+
 #pais
 INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'México');
 INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'Colombia');
+
 #estado
 INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Morelos', '1');
 INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Amazonas', '2');
+
 #ciudad
 INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'cuernavaca', '1');
 INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'bogota', '2');
+
+#contacto
+INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-10-25', 'atendió la llamada ');
+
+-- Ubicacion
+INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES (NULL, '1', '1', '1');
+
+-- Consultas a tablas
+
+-- Consulta del nombre de los promotores Actual
+SELECT 
+	P.nombre as NombrePromotor
+FROM Leads L
+JOIN promotor P ON L.PromotorActual = P.PromotorID;
+
+-- Consulta el nombre del promotor nuevo que se reasigno a un Lead
+SELECT
+	L.NombreCompleto,
+	P.nombre as PromotorNuevo
+FROM reasignaciones R
+JOIN Leads L ON R.LeadID = L.LeadID
+JOIN promotor P ON R.PromotorNuevo = P.promotorID;
+
+-- Consulta la ubicacion de la ciudad de un LEAD 
+SELECT
+	L.NombreCompleto,
+    C.Nombre
+FROM ciudad C
+JOIN ubicacion U ON C.ciudadID = U.ciudadID
+JOIN leads L ON U.ubicacionID = L.ubicacionID;
+
+-- Consulta de los Leads por el semestre de Ingreso
+SELECT
+	L.NombreCompleto,
+    SemI.Nombre
+FROM leads L
+JOIN semestreingreso SemI ON L.SemestreIngresoID = SemI.SemestreID;
+
+-- Consulta de carrera de Interes por Lead
+SELECT 
+	L.NombreCompleto,
+    CI.Nombre
+FROM leads L
+JOIN carrerainteres CI ON L.CarreraInteresID = CI.CarreraID;
+
+-- Consulta de por campana
+SELECT
+	L.NombreCompleto,
+    C.Nombre
+FROM leads L
+JOIN campana C ON L.CampanaID = C.campanaID;
+
+-- Consulta Medio de contacto
+SELECT
+	L.NombreCompleto,
+    MC.Nombre
+FROM leads L
+JOIN mediodecontacto MC ON L.MedioDeContactoID = MC.MedioID;
+    
+    
+
+
+
+	
+ 
+
+    
+	
+	
+
+
+    
+ 
+
+
