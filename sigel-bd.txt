@@ -234,3 +234,6 @@ INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Amazonas', 
 #ciudad
 INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'cuernavaca', '1');
 INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'bogota', '2');
+
+#contacto
+INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-10-25', 'atendió la llamada ');
