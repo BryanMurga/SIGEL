@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba</title>
+    <title>Selección de Países</title>
 </head>
 <body>
-  <h5>Ingresa tu país de origen</h5>
-    <select id="country-select">
-        <option value="">Selecciona un país</option>
-    </select>
+    <h5>Ingresa tu país de origen</h5>
+    
+    <!-- Campo de entrada de texto con datalist -->
+    <input type="text" list="countries" id="country-input">
+    
+    <!-- Datalist que contiene las opciones de países -->
+    <datalist id="countries">
+        <!-- Aquí se llenarán los nombres de los países -->
+    </datalist>
 
-    <script src="/ApiUbicacion//api-pais.js"></script>
+    <script src="api-pais.js"></script>
 </body>
 </html>
