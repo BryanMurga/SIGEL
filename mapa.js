@@ -7,11 +7,21 @@ function cargarDatosDesdeJSON(archivo, callback) {
 }
 
 // Función para crear opciones en un select
-function crearOpcionesEnSelect(selectElement, datos) {
+function crearOpcionesEnSelectEstado(selectElement, datos) {
     datos.forEach(item => {
         const option = document.createElement('option');
         option.value = item.valor;
         option.textContent = item.nombre;
+        selectElement.appendChild(option);
+    });
+}
+
+// Función para crear opciones en un select
+function crearOpcionesEnSelectMunicipio(selectElement, datos) {
+    datos.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.textContent = item;
         selectElement.appendChild(option);
     });
 }
@@ -21,24 +31,24 @@ const municipioSelect = document.getElementById('municipioSelect');
 
 // Cargar y mostrar estados
 cargarDatosDesdeJSON('estados.json', estados => {
-    crearOpcionesEnSelect(estadoSelect, estados);
+    crearOpcionesEnSelectEstado(estadoSelect, estados);
 });
 
 // Cargar y mostrar municipios
-cargarDatosDesdeJSON('municipios.json', municipios => {
-    // Obtener un arreglo con todos los municipios
-    const todosLosMunicipios = Object.values(municipios).flat();
+cargarDatosDesdeJSON('municipios.json', municipiosPorEstado => {
+    // Obtener todos los municipios en un solo arreglo
+    const todosLosMunicipios = Object.values(municipiosPorEstado).flat();
     // Crear opciones en el select de municipios
-    crearOpcionesEnSelect(municipioSelect, todosLosMunicipios);
+    crearOpcionesEnSelectMunicipio(municipioSelect, todosLosMunicipios);
 });
 
-/*
+
+
 // Evento para cargar y mostrar municipios al seleccionar un estado
 estadoSelect.addEventListener('change', function() {
     const selectedEstado = estadoSelect.value;
     // Filtrar municipios por estado
-    const municipiosFiltrados = municipios.filter(municipio => municipio.estado === selectedEstado);
+    const municipiosFiltrados = municipio.filter(municipio => municipio.estado === selectedEstado);
     municipioSelect.innerHTML = '<option value="">Selecciona un Municipio</option>'; // Reiniciar el select de municipios
     crearOpcionesEnSelect(municipioSelect, municipiosFiltrados);
 });
-*/
