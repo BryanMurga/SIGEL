@@ -73,6 +73,7 @@ CREATE TABLE Leads (
     SemestreIngresoID INT,
     Ciclo VARCHAR(10),
     CampanaID INT,
+    AsetName VARCHAR(255),
     IsOrganic ENUM('PAUTA', 'ORGÁNICO', '') NOT NULL DEFAULT '',
     MedioDeContactoID INT,
     -- referido
@@ -92,6 +93,12 @@ CREATE TABLE Leads (
     FechaPromotorActual DATE,
     Comentarios TEXT,
     Contacto INT
+);
+-- Crear la tabla "Campana"
+CREATE TABLE Campana (
+    CampanaID INT AUTO_INCREMENT PRIMARY KEY,
+    TipoCamp VARCHAR(255),
+    Nombre VARCHAR(255)
 );
 
 -- Crear la tabla "CarreraInteres"
@@ -299,12 +306,75 @@ SELECT
     MC.Nombre
 FROM leads L
 JOIN mediodecontacto MC ON L.MedioDeContactoID = MC.MedioID;
-    
-    
 
+-- Trigger para saber la cantidad de regisros por mes de los leads
+use pruebasdesarrollo;
+CREATE TABLE leadxmes (
+	mes int,
+    anio int,
+    cantidad_registros int
+);
 
+CREATE TABLE leadxmes_promotor (
+	mes int,
+    anio int,
+    nombrePromotor VARCHAR(255),
+    cantidad_registros int
+);
 
-	
+DELIMITER //
+CREATE TRIGGER actualizar_conteo
+AFTER INSERT ON leads
+FOR EACH ROW
+BEGIN
+    DECLARE mes_insert INT;
+    DECLARE anio_insert INT;
+    SET mes_insert = MONTH(NEW.FechaPrimerContacto); -- Suponiendo que tienes una columna llamada "fecha" en tu tabla
+    SET anio_insert = YEAR(NEW.FechaPrimerContacto);
+
+    -- Verificar si ya existe un registro para el mes y año actual
+    IF EXISTS (SELECT * FROM leadxmes WHERE mes = mes_insert AND anio = anio_insert) THEN
+        -- Actualizar el conteo
+        UPDATE leadxmes
+        SET cantidad_registros = cantidad_registros + 1
+        WHERE mes = mes_insert AND anio = anio_insert;
+    ELSE
+        -- Insertar un nuevo registro para el mes y año actual
+        INSERT INTO leadxmes (mes, anio, cantidad_registros)
+        VALUES (mes_insert, anio_insert, 1);
+    END IF;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER actualizar_conteo_leadoxpromotor
+AFTER INSERT ON leads
+FOR EACH ROW
+BEGIN
+    DECLARE mes_insert INT;
+    DECLARE anio_insert INT;
+    DECLARE promotor_insert VARCHAR(255);
+    SET mes_insert = MONTH(NEW.FechaPrimerContacto); -- Suponiendo que tienes una columna llamada "fecha" en tu tabla
+    SET anio_insert = YEAR(NEW.FechaPrimerContacto);
+    SET promotor_insert = NEW.NombrePromAct;
+
+    -- Verificar si ya existe un registro para el mes y año actual
+    IF EXISTS (SELECT * FROM leadxmes_promotor WHERE mes = mes_insert AND anio = anio_insert AND nombrePromotor =  promotor_insert ) THEN
+        -- Actualizar el conteo
+        UPDATE leadxmes_promotor
+        SET cantidad_registros = cantidad_registros + 1
+        WHERE mes = mes_insert AND anio = anio_insert AND nombrePromotor = promotor_insert;
+    ELSE
+        -- Insertar un nuevo registro para el mes y año actual
+        INSERT INTO leadxmes_promotor (mes, anio, nombrePromotor, cantidad_registros)
+        VALUES (mes_insert, anio_insert, promotor_insert, 1);
+    END IF;
+END;
+//
+DELIMITER ;
+
+SET SQL_SAFE_UPDATES = 0;
  
 
     
