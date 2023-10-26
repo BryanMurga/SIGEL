@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selección de Estados y Municipios</title>
+    <title>Estados y Municipios</title>
 </head>
 <body>
-    <h1>Selecciona un Estado y un Municipio</h1>
-
-    <!-- Select para estados -->
-    <select id="estadoSelect">
-        <option value="">Selecciona un Estado</option>
+    <label for="estado">Selecciona un estado:</label>
+    <select id="estado" onchange="mostrarMunicipios()">
+        <!-- Opciones de estados se agregarán con JavaScript -->
     </select>
-
-    <!-- Select para municipios -->
-    <select id="municipioSelect">
-        <option value="">Selecciona un Municipio</option>
+    
+    <label for="municipio">Selecciona un municipio:</label>
+    <select id="municipio">
+        <!-- Opciones de municipios se agregarán con JavaScript -->
     </select>
-
-
+    
     <script src="mapa.js"></script>
 </body>
 </html>
