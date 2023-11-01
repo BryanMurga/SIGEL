@@ -254,6 +254,22 @@ VALUES
 INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-11-02 11:45:49');
 
 
+#contactoAlumno
+INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
+VALUES 
+(NULL, '2023-11-02', 'Se realizo un seguimiento de inscripción con el alumno');
+INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
+VALUES 
+(NULL, '2023-11-03', 'se concluyo la inscripción');
+
+#alumnos
+INSERT INTO `alumnos` (`AlumnoID`, `LeadID`, `NoRecibo`, `Matricula`, `Procedencia`, `TipoBaja`, `RSFacebook`, `RSInstagram`, `RSTiktok`, `RSLinkedln`, `RSTwiter`, `RSWhatsapp`, `RSOtro`, `ContactoID`, `Estatus`, `FechaBaja`, `CorreoInstitucional`) 
+VALUES 
+(NULL, '1', '100', 'M26', 'Local', 'Temporal', 'si', NULL, NULL, NULL, NULL, NULL, NULL, '2', '1', NULL, 'milton@correo.com');
+INSERT INTO `alumnos` (`AlumnoID`, `LeadID`, `NoRecibo`, `Matricula`, `Procedencia`, `TipoBaja`, `RSFacebook`, `RSInstagram`, `RSTiktok`, `RSLinkedln`, `RSTwiter`, `RSWhatsapp`, `RSOtro`, `ContactoID`, `Estatus`, `FechaBaja`, `CorreoInstitucional`) 
+VALUES 
+(NULL, '2', '101', 'B11', 'Foraneo', 'Definitiva', NULL, 'si', NULL, NULL, NULL, NULL, NULL, '2', '1', '2023-11-03', 'Bryan@correo.com');
+
 
 -- Consultas a tablas
 
