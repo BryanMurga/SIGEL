@@ -194,51 +194,66 @@ JOIN Ciudad UbiC ON U.CiudadID = UbiC.CiudadID;
 
 -- mis insert
 #campana
-INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de estudio');
-INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de ayuda');
+INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'tiktok', 'las prez');
+INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'facebook', 'hallowen fest');
 
 #carrerainteres
-INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, NULL), (NULL, 'Psicología (LPS)');
+INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Psicología (LPS)');
 INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Derecho (LED)');
 
-#semestreingreso
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'cuarto');
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'quinto');
-
+#contacto
+INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-10-25', 'respondio correo');
+INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-11-02', 'atendio llamada');
 
 #mediodecontacto
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'correo');
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'llamada');
 
-#promotor
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'Yazmin', 'yazmin@correo.com', '123456');
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456');
-
-#reasignaciones
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-10-25');
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-10-27 11:02:17');
-
-#semestreingreso
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'segundo semestre');
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'primer semestre');
-
 #pais
 INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'México');
-INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'Colombia');
+INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'Estados Unidos');
 
 #estado
 INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Morelos', '1');
-INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Amazonas', '2');
+INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Ney work', '2');
 
 #ciudad
-INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'cuernavaca', '1');
-INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'bogota', '2');
+INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'Cuernavaca', '1');
+INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'Queen', '2');
 
-#contacto
-INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-10-25', 'atendió la llamada ');
+#promotor
+INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456', '777852632');
+INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'Yanin', 'yanin@correo.com', '123456', '77458623');
 
--- Ubicacion
+#semestreingreso
+INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'primer semestre');
+INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'segundo semestre');
+
+#Ubicacion
 INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES (NULL, '1', '1', '1');
+INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES (NULL, '2', '2', '2');
+
+#Leads
+INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`,
+`FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, 
+`EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, 
+`DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, 
+`PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`, `estado`) VALUES (NULL, 'Milton Jaimes', 
+'55446789', NULL, 'milton@correo.com', NULL, '2023-11-02', '22', 'Cecyte', '1', 'P-PROSPECTO', '1', 'PREPA-A', 'Psicología (LPS)', 
+'INS', '1', '2024', '2', 'PAUTA', '1', 'ESTUDIANTE', 'Mariaca', 'B_EMPRESAS', '2023-11-02', '20', '1', '1', 'Ximena', '2023-11-01', 
+'1', 'Ximena', '2023-11-02', 'Contesto', '1', '1'), (NULL, 'Bryan Murga', '77765432', NULL, 'bryan@correo.com', NULL, '2023-10-10', 
+'22', 'CETIS', '2', 'INSC-INSCRIPCIÓIN', '2', 'LIC/ING', 'Derecho (LED)', 'INZO', '2', '24', '1', 'ORGÁNICO', '2', 
+'FAMILIAR DE ALGÚN ESTUDIANTE', 'Martinez', 'CLIENGO', '2023-11-01', '50', '2', '2', 'Yanin', '2023-11-01', NULL, 'Yanin', 
+'2023-11-01', 'sigue interesado en la oportunidad de estudio', '2', '1');
+INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`, `estado`) 
+VALUES 
+(NULL, 'Milton Jaimes', '55446789', NULL, 'milton@correo.com', NULL, '2023-11-02', '22', 'Cecyte', '1', 'P-PROSPECTO', '1', 'PREPA-A', 'Psicología (LPS)', 'INS', '1', '2024', '2', 'PAUTA', '1', 'ESTUDIANTE', 'Mariaca', 'B_EMPRESAS', '2023-11-02', '20', '1', '1', 'Ximena', '2023-11-01', '1', 'Ximena', '2023-11-02', 'Contesto', '1', '1'), 
+(NULL, 'Bryan Murga', '77765432', NULL, 'bryan@correo.com', NULL, '2023-10-10', '22', 'CETIS', '2', 'INSC-INSCRIPCIÓN', '2', 'LIC/ING', 'Derecho (LED)', 'INZO', '2', '24', '1', 'ORGÁNICO', '2', 'FAMILIAR DE ALGÚN ESTUDIANTE', 'Martinez', 'CLIENGO', '2023-11-01', '50', '2', '2', 'Yanin', '2023-11-01', NULL, 'Yanin', '2023-11-01', 'sigue interesado en la oportunidad de estudio', '2', '1');
+
+#reasignaciones
+INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-11-02 11:45:49');
+
+
 
 -- Consultas a tablas
 
@@ -418,17 +433,3 @@ BEGIN
 END;
 //
 DELIMITER ;
-
-
-
-
-	 
-
-    
-	
-	
-
-
-    
- 
-
