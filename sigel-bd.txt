@@ -120,12 +120,6 @@ CREATE TABLE SemestreIngreso (
     Nombre VARCHAR(255)
 );
 
--- Crear la tabla "Campana"
-CREATE TABLE Campana (
-    CampanaID INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(255)
-);
-
 -- Crear la tabla "MedioDeContacto"
 CREATE TABLE MedioDeContacto (
     MedioID INT AUTO_INCREMENT PRIMARY KEY,
