@@ -135,6 +135,35 @@ CREATE TABLE Reasignaciones (
     FechaReasignacion DATETIME
 );
 
+
+CREATE TABLE ContactoAlumno(
+	ContactoAlumnoID INT PRIMARY KEY auto_increment NOT NULL,
+    FechaContacto date,
+    Comentario text
+);
+
+CREATE TABLE Alumnos (
+    AlumnoID INT AUTO_INCREMENT PRIMARY KEY,
+    LeadID INT,
+    NoRecibo VARCHAR(50),
+	Matricula VARCHAR(50),
+    Procedencia ENUM('Local', 'Foraneo'),
+    TipoBaja ENUM('Temporal','Definitiva'),
+    RSFacebook VARCHAR(50),
+    RSInstagram VARCHAR(50),
+    RSTiktok VARCHAR(50),
+    RSLinkedln VARCHAR(255),
+    RSTwiter VARCHAR(50),
+    RSWhatsapp INT (15),
+    RSOtro VARCHAR(255),
+    ContactoID INT,
+    Estatus boolean default true,
+    FechaBaja date,
+    CorreoInstitucional varchar (50),
+    FOREIGN KEY (LeadID) REFERENCES Leads(LeadID),
+    FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID)
+);
+
 -- Agregar la relación entre Leads y Ubicacion
 ALTER TABLE Leads
 ADD FOREIGN KEY (UbicacionID) REFERENCES Ubicacion(UbicacionID);
@@ -391,34 +420,6 @@ END;
 DELIMITER ;
 
 SET SQL_SAFE_UPDATES = 0;
-
-CREATE TABLE ContactoAlumno(
-	ContactoAlumnoID INT PRIMARY KEY auto_increment NOT NULL,
-    FechaContacto date,
-    Comentario text
-);
-
-CREATE TABLE Alumnos (
-    AlumnoID INT AUTO_INCREMENT PRIMARY KEY,
-    LeadID INT,
-    NoRecibo VARCHAR(50),
-	Matricula VARCHAR(50),
-    Procedencia ENUM('Local', 'Foraneo'),
-    TipoBaja ENUM('Temporal','Definitiva'),
-    RSFacebook VARCHAR(50),
-    RSInstagram VARCHAR(50),
-    RSTiktok VARCHAR(50),
-    RSLinkedln VARCHAR(255),
-    RSTwiter VARCHAR(50),
-    RSWhatsapp INT (15),
-    RSOtro VARCHAR(255),
-    ContactoID INT,
-    Estatus boolean default true,
-    FechaBaja date,
-    CorreoInstitucional varchar (50),
-    FOREIGN KEY (LeadID) REFERENCES Leads(LeadID),
-    FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID)
-);
 
 DELIMITER //
 CREATE TRIGGER insert_alumnos
