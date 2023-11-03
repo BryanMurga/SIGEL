@@ -41,7 +41,8 @@ CREATE TABLE Promotor (
     Nombre VARCHAR(255),
     Correo VARCHAR(255),
     Passw VARCHAR(255),
-    Telefono INT(10)
+    Telefono INT(10),
+    Estado BOOLEAN DEFAULT TRUE NOT NULL
 );
 
 -- Crear la tabla "Leads"
@@ -92,7 +93,7 @@ CREATE TABLE Leads (
     FechaPromotorActual DATE,
     Comentarios TEXT,
     Contacto INT,
-    estado BOOLEAN DEFAULT TRUE NOT NULL
+    Estado BOOLEAN DEFAULT TRUE NOT NULL
 );
 -- Crear la tabla "Campana"
 CREATE TABLE Campana (
