@@ -1,5 +1,6 @@
-CREATE DATABASE pruebasdesarrollo;
-USE pruebasdesarrollo;
+DROP DATABASE APIS2;
+CREATE DATABASE APIS2;
+USE APIS2;
 
 -- Crear la tabla "Pais"
 CREATE TABLE Pais (
@@ -41,15 +42,16 @@ CREATE TABLE Promotor (
     Nombre VARCHAR(255),
     Correo VARCHAR(255),
     Passw VARCHAR(255),
-    Telefono INT(10)
+    Telefono INT(10),
+    Estado BOOLEAN DEFAULT TRUE NOT NULL
 );
 
 -- Crear la tabla "Leads"
 CREATE TABLE Leads (
     LeadID INT AUTO_INCREMENT PRIMARY KEY,
     NombreCompleto VARCHAR(255),
-    Telefono VARCHAR(20),
-    Telefono2 VARCHAR(20),
+    Telefono INT(20),
+    Telefono2 INT(20),
     CorreoElectronico VARCHAR(255),
     CorreoElectronico2 VARCHAR(255),
     FechaPrimerContacto DATE,
@@ -69,7 +71,7 @@ CREATE TABLE Leads (
                   'Diseño de Modas y Tendencias Internacionales (LDM)','Diseño Industrial (LDI)','Diseño Gráfico (LDG)','Animación y Diseño Digital (LADD)',
                   'Licenciatura Ejecutiva en Gestión Empresarial(LEGE)','Licenciatura Ejecutiva en Mercadotecnia(LEMK)','Licenciatura Ejecutiva en Administración de Negocios Internacionales(LEANI)',
                   'Licenciatura Ejecutiva en Administración y Mercadotecnia (LEAM)','Licenciatura en Ejecutiva Mercadotecnia y Publicidad (LEMKP)','Licenciatura en Ejecutiva Comercio Exterior (LECE)', 'OTRO'),
-    EstatusInsc ENUM('INS','INZO','REZA'),
+    EstatusInsc ENUM('INS','INZO','REZA', 'INSC', 'BAJA'),
     SemestreIngresoID INT,
     Ciclo VARCHAR(10),
     CampanaID INT,
@@ -91,8 +93,7 @@ CREATE TABLE Leads (
     NombrePromAct VARCHAR (255),
     FechaPromotorActual DATE,
     Comentarios TEXT,
-    Contacto INT,
-    estado BOOLEAN DEFAULT TRUE NOT NULL
+    Contacto INT
 );
 -- Crear la tabla "Campana"
 CREATE TABLE Campana (
@@ -133,6 +134,40 @@ CREATE TABLE Reasignaciones (
     PromotorAnterior INT,
     PromotorNuevo INT,
     FechaReasignacion DATETIME
+);
+
+
+CREATE TABLE ContactoAlumno(
+	ContactoAlumnoID INT PRIMARY KEY auto_increment NOT NULL,
+    FechaContacto date,
+    Comentario text
+);
+
+CREATE TABLE Alumnos (
+    AlumnoID INT AUTO_INCREMENT PRIMARY KEY,
+    LeadID INT,
+    Nombre VARCHAR(50),
+    Telefono int(20),
+    EscuelaProcedencia varchar(50),
+    NombrePromotor varchar(50),
+    Promotor VARCHAR(50),
+    NoRecibo VARCHAR(50),
+	Matricula VARCHAR(50),
+    Procedencia ENUM('Local', 'Foraneo'),
+    TipoBaja ENUM('Temporal','Definitiva'),
+    RSFacebook VARCHAR(50),
+    RSInstagram VARCHAR(50),
+    RSTiktok VARCHAR(50),
+    RSLinkedln VARCHAR(255),
+    RSTwiter VARCHAR(50),
+    RSWhatsapp INT (15),
+    RSOtro VARCHAR(255),
+    ContactoID INT,
+    Estatus ENUM('INSC','BAJA'),
+    FechaBaja date,
+    CorreoInstitucional varchar (50),
+    FOREIGN KEY (LeadID) REFERENCES Leads(LeadID),
+    FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID)
 );
 
 -- Agregar la relación entre Leads y Ubicacion
@@ -194,51 +229,75 @@ JOIN Ciudad UbiC ON U.CiudadID = UbiC.CiudadID;
 
 -- mis insert
 #campana
-INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de estudio');
-INSERT INTO `campana` (`CampanaID`, `Nombre`) VALUES (NULL, 'campaña de ayuda');
+INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'tiktok', 'las prez');
+INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'facebook', 'hallowen fest');
 
 #carrerainteres
-INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, NULL), (NULL, 'Psicología (LPS)');
+INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Psicología (LPS)');
 INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Derecho (LED)');
 
-#semestreingreso
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'cuarto');
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'quinto');
-
+#contacto
+INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-10-25', 'respondio correo');
+INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-11-02', 'atendio llamada');
 
 #mediodecontacto
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'correo');
 INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'llamada');
 
-#promotor
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'Yazmin', 'yazmin@correo.com', '123456');
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456');
-
-#reasignaciones
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-10-25');
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-10-27 11:02:17');
-
-#semestreingreso
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'segundo semestre');
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'primer semestre');
-
 #pais
 INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'México');
-INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'Colombia');
+INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'Estados Unidos');
 
 #estado
 INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Morelos', '1');
-INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Amazonas', '2');
+INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Ney work', '2');
 
 #ciudad
-INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'cuernavaca', '1');
-INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'bogota', '2');
+INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'Cuernavaca', '1');
+INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'Queen', '2');
 
-#contacto
-INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-10-25', 'atendió la llamada ');
+#promotor
+INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456', '777852632');
+INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'Yanin', 'yanin@correo.com', '123456', '77458623');
 
--- Ubicacion
+#semestreingreso
+INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'primer semestre');
+INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'segundo semestre');
+
+#Ubicacion
 INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES (NULL, '1', '1', '1');
+INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES (NULL, '2', '2', '2');
+
+
+
+INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) VALUES (NULL, 'Rodolfo', 7778989654, NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
+INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) VALUES (NULL, 'Peuba el milf', 7778989654, NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
+
+
+
+#reasignaciones
+INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-11-02 11:45:49');
+
+
+
+
+
+#contactoAlumno
+INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
+VALUES 
+(NULL, '2023-11-02', 'Se realizo un seguimiento de inscripción con el alumno');
+INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
+VALUES 
+(NULL, '2023-11-03', 'se concluyo la inscripción');
+
+#alumnos
+INSERT INTO `alumnos` (`AlumnoID`, `LeadID`, `NoRecibo`, `Matricula`, `Procedencia`, `TipoBaja`, `RSFacebook`, `RSInstagram`, `RSTiktok`, `RSLinkedln`, `RSTwiter`, `RSWhatsapp`, `RSOtro`, `ContactoID`, `Estatus`, `FechaBaja`, `CorreoInstitucional`) 
+VALUES 
+(NULL, '1', '100', 'M26', 'Local', 'Temporal', 'si', NULL, NULL, NULL, NULL, NULL, NULL, '2', '1', NULL, 'milton@correo.com');
+INSERT INTO `alumnos` (`AlumnoID`, `LeadID`, `NoRecibo`, `Matricula`, `Procedencia`, `TipoBaja`, `RSFacebook`, `RSInstagram`, `RSTiktok`, `RSLinkedln`, `RSTwiter`, `RSWhatsapp`, `RSOtro`, `ContactoID`, `Estatus`, `FechaBaja`, `CorreoInstitucional`) 
+VALUES 
+(NULL, '2', '101', 'B11', 'Foraneo', 'Definitiva', NULL, 'si', NULL, NULL, NULL, NULL, NULL, '2', '1', '2023-11-03', 'Bryan@correo.com');
+
 
 -- Consultas a tablas
 
@@ -293,7 +352,6 @@ FROM leads L
 JOIN mediodecontacto MC ON L.MedioDeContactoID = MC.MedioID;
 
 -- Trigger para saber la cantidad de regisros por mes de los leads
-use pruebasdesarrollo;
 CREATE TABLE leadxmes (
 	mes int,
     anio int,
@@ -361,74 +419,18 @@ DELIMITER ;
 
 SET SQL_SAFE_UPDATES = 0;
 
-CREATE TABLE ContactoAlumno(
-	ContactoAlumnoID INT PRIMARY KEY auto_increment NOT NULL,
-    FechaContacto date,
-    Comentario text
-);
-
-CREATE TABLE Alumnos (
-    AlumnoID INT AUTO_INCREMENT PRIMARY KEY,
-    LeadID INT,
-    NoRecibo VARCHAR(50),
-	Matricula VARCHAR(50),
-    Procedencia ENUM('Local', 'Foraneo'),
-    TipoBaja ENUM('Temporal','Definitiva'),
-    RSFacebook VARCHAR(50),
-    RSInstagram VARCHAR(50),
-    RSTiktok VARCHAR(50),
-    RSLinkedln VARCHAR(255),
-    RSTwiter VARCHAR(50),
-    RSWhatsapp INT (15),
-    RSOtro VARCHAR(255),
-    ContactoID INT,
-    Estatus boolean default true,
-    FechaBaja date,
-    CorreoInstitucional varchar (50),
-    FOREIGN KEY (LeadID) REFERENCES Leads(LeadID),
-    FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID)
-);
-
 DELIMITER //
 CREATE TRIGGER insert_alumnos
-AFTER INSERT ON leads
+AFTER UPDATE ON Leads
 FOR EACH ROW
 BEGIN
-    DECLARE leadIDInsert INT;
-    DECLARE NoRecibo_insert VARCHAR(50);
-    DECLARE Matricula_insert VARCHAR(50);
-    DECLARE Matricula_insert VARCHAR(50);
-
-
-    SET mes_insert = MONTH(NEW.FechaPrimerContacto); -- Suponiendo que tienes una columna llamada "fecha" en tu tabla
-    SET anio_insert = YEAR(NEW.FechaPrimerContacto);
-    SET promotor_insert = NEW.NombrePromAct;
-
-    -- Verificar si ya existe un registro para el mes y año actual
-    IF EXISTS (SELECT * FROM leadxmes_promotor WHERE mes = mes_insert AND anio = anio_insert AND nombrePromotor =  promotor_insert ) THEN
-        -- Actualizar el conteo
-        UPDATE leadxmes_promotor
-        SET cantidad_registros = cantidad_registros + 1
-        WHERE mes = mes_insert AND anio = anio_insert AND nombrePromotor = promotor_insert;
-    ELSE
-        -- Insertar un nuevo registro para el mes y año actual
-        INSERT INTO leadxmes_promotor (mes, anio, nombrePromotor, cantidad_registros)
-        VALUES (mes_insert, anio_insert, promotor_insert, 1);
+	IF NEW.EstatusInsc = 'INSC' THEN
+     INSERT INTO alumnos (LeadID,Nombre,Telefono,EscuelaProcedencia,NombrePromotor,Estatus)
+    VALUES (NEW.LeadID, NEW.NombreCompleto , NEW.Telefono, NEW.EscuelaProcedencia, NEW.NombrePromAct, NEW.EstatusInsc)
+    ON DUPLICATE KEY UPDATE LeadID = NEW.LeadID, Nombre = NEW.NombreCompleto, Telefono = NEW.Telefono, EscuelaProcedencia = NEW.EscuelaProcedencia, NombrePromotor = NEW.NombrePromAct, Estatus = NEW.EstatusInsc;
     END IF;
 END;
 //
 DELIMITER ;
-
-
-
-
-	 
-
-    
-	
-	
-
-
-    
- 
-
+-- DROP trigger insert_alumnos;
+UPDATE leads SET EstatusInsc = 'INSC' WHERE LeadID= 2;
