@@ -42,7 +42,7 @@ CREATE TABLE Promotor (
     Nombre VARCHAR(255),
     Correo VARCHAR(255),
     Passw VARCHAR(255),
-    Telefono INT(10),
+    Telefono varchar(20),
     Estado BOOLEAN DEFAULT TRUE NOT NULL
 );
 
@@ -50,12 +50,12 @@ CREATE TABLE Promotor (
 CREATE TABLE Leads (
     LeadID INT AUTO_INCREMENT PRIMARY KEY,
     NombreCompleto VARCHAR(255),
-    Telefono INT(20),
-    Telefono2 INT(20),
+    Telefono varchar(20),
+    Telefono2 varchar(20),
     CorreoElectronico VARCHAR(255),
     CorreoElectronico2 VARCHAR(255),
     FechaPrimerContacto DATE,
-    Edad INT(3),
+    FechaNac date,
     EscuelaProcedencia VARCHAR(255),
     UbicacionID INT,
     PSeguimiento ENUM('AU-ALUMNO UNINTER','INSC-INSCRIPCIÓIN','NC-NO CONTESTA', 'NI-NO INTERESA',
@@ -147,7 +147,7 @@ CREATE TABLE Alumnos (
     AlumnoID INT AUTO_INCREMENT PRIMARY KEY,
     LeadID INT,
     Nombre VARCHAR(50),
-    Telefono int(20),
+    Telefono varchar(20),
     EscuelaProcedencia varchar(50),
     NombrePromotor varchar(50),
     Promotor VARCHAR(50),
@@ -270,17 +270,13 @@ INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES
 
 
 
-INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) VALUES (NULL, 'Rodolfo', 7778989654, NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
-INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `Edad`, `EscuelaProcedencia`, `UbicacionID`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngresoID`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) VALUES (NULL, 'Peuba el milf', 7778989654, NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
+INSERT INTO `leads` VALUES (NULL, 'Rodolfo', '7771301194', NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
+INSERT INTO `leads` VALUES (NULL, 'Peuba el milf', '7773605097', NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
 
 
 
 #reasignaciones
 INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-11-02 11:45:49');
-
-
-
-
 
 #contactoAlumno
 INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
@@ -434,3 +430,6 @@ END;
 DELIMITER ;
 -- DROP trigger insert_alumnos;
 UPDATE leads SET EstatusInsc = 'INSC' WHERE LeadID= 2;
+
+//
+DELIMITER ;
