@@ -2,40 +2,6 @@ DROP DATABASE APIS2;
 CREATE DATABASE APIS2;
 USE APIS2;
 
--- Crear la tabla "Pais"
-CREATE TABLE Pais (
-    PaisID INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(255)
-);
-
--- Crear la tabla "Estado"
-CREATE TABLE Estado (
-    EstadoID INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(255),
-    PaisID INT,
-    FOREIGN KEY (PaisID) REFERENCES Pais(PaisID)
-);
-
--- Crear la tabla "Ciudad"
-CREATE TABLE Ciudad (
-    CiudadID INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(255),
-    EstadoID INT,
-    FOREIGN KEY (EstadoID) REFERENCES Estado(EstadoID)
-);
-
--- Crear la tabla "Ubicacion"
-CREATE TABLE Ubicacion (
-    UbicacionID INT AUTO_INCREMENT PRIMARY KEY,
-    PaisID INT,
-    EstadoID INT,
-    CiudadID INT,
-    FOREIGN KEY (PaisID) REFERENCES Pais(PaisID),
-    FOREIGN KEY (EstadoID) REFERENCES Estado(EstadoID),
-    FOREIGN KEY (CiudadID) REFERENCES Ciudad(CiudadID)
-);
-
-
 -- Crear la tabla "Promotor"
 CREATE TABLE Promotor (
     PromotorID INT AUTO_INCREMENT PRIMARY KEY,
@@ -50,14 +16,16 @@ CREATE TABLE Promotor (
 CREATE TABLE Leads (
     LeadID INT AUTO_INCREMENT PRIMARY KEY,
     NombreCompleto VARCHAR(255),
-    Telefono varchar(20),
-    Telefono2 varchar(20),
+    Telefono VARCHAR(20),
+    Telefono2 INT(20),
     CorreoElectronico VARCHAR(255),
     CorreoElectronico2 VARCHAR(255),
     FechaPrimerContacto DATE,
     FechaNac date,
     EscuelaProcedencia VARCHAR(255),
-    UbicacionID INT,
+	NombrePais VARCHAR(255),
+    NombreEstado VARCHAR(255),
+    NombreCiudad VARCHAR(255),
     PSeguimiento ENUM('AU-ALUMNO UNINTER','INSC-INSCRIPCIÓIN','NC-NO CONTESTA', 'NI-NO INTERESA',
                       'P-PROSPECTO','PI-INSCRIPCIÓN', 'PS-SEGUIMIENTO','SC-SIN CONTACTO','PU-PERSONAL UNINTER','DU-DUPLICADO','DI-DATO NO VALIDO','BA-BAJA ALUMNO', 'VACIO'),
     CarreraInteresID INT,
@@ -72,7 +40,8 @@ CREATE TABLE Leads (
                   'Licenciatura Ejecutiva en Gestión Empresarial(LEGE)','Licenciatura Ejecutiva en Mercadotecnia(LEMK)','Licenciatura Ejecutiva en Administración de Negocios Internacionales(LEANI)',
                   'Licenciatura Ejecutiva en Administración y Mercadotecnia (LEAM)','Licenciatura en Ejecutiva Mercadotecnia y Publicidad (LEMKP)','Licenciatura en Ejecutiva Comercio Exterior (LECE)', 'OTRO'),
     EstatusInsc ENUM('INS','INZO','REZA', 'INSC', 'BAJA'),
-    SemestreIngresoID INT,
+    SemestreIngreso ENUM('1 Semestre','2 Semestre','3 Semestre','4 Semestre','5 Semestre','6 Semestre','7 Semestre', '8 Semestre',
+    'Maestria','Doctorado','Licenciatura','Diplomados'),
     Ciclo VARCHAR(10),
     CampanaID INT,
     IsOrganic ENUM('PAUTA', 'ORGÁNICO', '') NOT NULL DEFAULT '',
@@ -94,7 +63,8 @@ CREATE TABLE Leads (
     FechaPromotorActual DATE,
     Comentarios TEXT,
     Contacto INT
-);
+    );
+    
 -- Crear la tabla "Campana"
 CREATE TABLE Campana (
     CampanaID INT AUTO_INCREMENT PRIMARY KEY,
@@ -115,16 +85,10 @@ CREATE TABLE Contacto (
     Comentario VARCHAR(255)
 );
 
--- Crear la tabla "SemestreIngreso"
-CREATE TABLE SemestreIngreso (
-    SemestreID INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(255)
-);
-
 -- Crear la tabla "MedioDeContacto"
 CREATE TABLE MedioDeContacto (
     MedioID INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(255)
+    Nombre CHAR(255)
 );
 
 -- Crear la tabla "Reasignaciones"
@@ -170,17 +134,9 @@ CREATE TABLE Alumnos (
     FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID)
 );
 
--- Agregar la relación entre Leads y Ubicacion
-ALTER TABLE Leads
-ADD FOREIGN KEY (UbicacionID) REFERENCES Ubicacion(UbicacionID);
-
 -- Agregar la relación entre Leads y CarreraInteres
 ALTER TABLE Leads
 ADD FOREIGN KEY (CarreraInteresID) REFERENCES CarreraInteres(CarreraID);
-
--- Agregar la relación entre Leads y SemestreIngreso
-ALTER TABLE Leads
-ADD FOREIGN KEY (SemestreIngresoID) REFERENCES SemestreIngreso(SemestreID);
 
 -- Agregar la relación entre Leads y Campana
 ALTER TABLE Leads
@@ -214,69 +170,9 @@ ADD FOREIGN KEY (PromotorNuevo) REFERENCES Promotor(PromotorID);
 ALTER TABLE Leads
 ADD FOREIGN KEY (Contacto) REFERENCES Contacto(ContactoID);
 
-SELECT
-    L.NombreCompleto,
-    UbiP.Nombre AS Pais,
-    UbiE.Nombre AS Estado,
-    UbiC.Nombre AS Ciudad
-FROM Leads L
-JOIN Ubicacion U ON L.UbicacionID = U.UbicacionID
-JOIN Pais UbiP ON U.PaisID = UbiP.PaisID
-JOIN Estado UbiE ON U.EstadoID = UbiE.EstadoID
-JOIN Ciudad UbiC ON U.CiudadID = UbiC.CiudadID;
-
-
-
 -- mis insert
-#campana
-INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'tiktok', 'las prez');
-INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'facebook', 'hallowen fest');
-
-#carrerainteres
-INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Psicología (LPS)');
-INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'Derecho (LED)');
-
-#contacto
-INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-10-25', 'respondio correo');
-INSERT INTO `contacto` (`ContactoID`, `FechaContacto`, `Comentario`) VALUES (NULL, '2023-11-02', 'atendio llamada');
-
-#mediodecontacto
-INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'correo');
-INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'llamada');
-
-#pais
-INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'México');
-INSERT INTO `pais` (`PaisID`, `Nombre`) VALUES (NULL, 'Estados Unidos');
-
-#estado
-INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Morelos', '1');
-INSERT INTO `estado` (`EstadoID`, `Nombre`, `PaisID`) VALUES (NULL, 'Ney work', '2');
-
-#ciudad
-INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'Cuernavaca', '1');
-INSERT INTO `ciudad` (`CiudadID`, `Nombre`, `EstadoID`) VALUES (NULL, 'Queen', '2');
-
-#promotor
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456', '777852632');
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'Yanin', 'yanin@correo.com', '123456', '77458623');
-
-#semestreingreso
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'primer semestre');
-INSERT INTO `semestreingreso` (`SemestreID`, `Nombre`) VALUES (NULL, 'segundo semestre');
-
-#Ubicacion
-INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES (NULL, '1', '1', '1');
-INSERT INTO `ubicacion` (`UbicacionID`, `PaisID`, `EstadoID`, `CiudadID`) VALUES (NULL, '2', '2', '2');
-
-
-
-INSERT INTO `leads` VALUES (NULL, 'Rodolfo', '7771301194', NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
-INSERT INTO `leads` VALUES (NULL, 'Peuba el milf', '7773605097', NULL, 'rodo@gmail.com', NULL, '2023-11-06', NULL, 'Cecyte', '1', 'PS-SEGUIMIENTO', '2', 'SECUNDARIA', 'Civil (ICI)', 'INS', '1', '2024-1', '1', 'ORGÁNICO', '2', 'ESTUDIANTE', 'RAUL', 'REDES SOCIALES META FACEBOOK', '2023-11-03', '15', '404', '2', 'Yanin', '2023-11-01', '2', 'Yanin', '2023-11-01', 'si', NULL);
-
-
-
 #reasignaciones
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '1', '2023-11-02 11:45:49');
+INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '2', '2023-11-16 14:33:50');
 
 #contactoAlumno
 INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
@@ -295,6 +191,29 @@ VALUES
 (NULL, '2', '101', 'B11', 'Foraneo', 'Definitiva', NULL, 'si', NULL, NULL, NULL, NULL, NULL, '2', '1', '2023-11-03', 'Bryan@correo.com');
 
 
+-- New Insert
+#campana
+INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'Beca especial', 'GENERACIÓN DE OPORTUNIDADES DE VENTA');
+INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'EQUIVALENCIAS', 'GENERACIÓN DE OPORTUNIDADES DE VENTA');
+
+#carrerainteres
+INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'INGENIERIA MECATRONICA');
+INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'ADMINISTRACION DE NEGOCIOS INTERNACIONALES');
+
+#mediocontacto
+INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'BARRIDO BASE');
+INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'LANDING CARRERAS');
+
+#promotor
+INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456', '777852632');
+INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'Yanin', 'yanin@correo.com', '123456', '77458623');
+
+#leads
+INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `FechaNac`, `EscuelaProcedencia`, `NombrePais`, `NombreEstado`, `NombreCiudad`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngreso`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) 
+VALUES (NULL, 'JOHAN ANTONIO FIGUEROA FITZ', '7341282632', NULL, 'JOHANFIGUEROA2022@GMAIL.COM', NULL, '2023-05-18', '2001-05-11', 'CBTIS', 'Mexico', 'Morelos', 'Cuernavaca', 'AU-ALUMNO UNINTER', '1', 'LIC/ING', 'Mecatrónica (IME)', 'INS', '6 Semestre', '2023-2024', '1', 'PAUTA', '1', 'PERSONAL UNINTER', 'Hugo Mariaca', 'B_PERSONAL', '2023-06-19', '40', '406', '1', 'Ximena', '2023-06-16', NULL, NULL, NULL, 'Contesto llamda', NULL);
+INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `FechaNac`, `EscuelaProcedencia`, `NombrePais`, `NombreEstado`, `NombreCiudad`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngreso`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`)
+VALUES (NULL, 'Mariana Lopez', '5551234567', NULL, 'mariana@email.com', NULL, '2023-06-01', '2002-02-15', 'Preparatoria XYZ', 'México', 'Ciudad de México', 'Ciudad de México', 'P-PROSPECTO', '2', 'LIC/ING', 'Derecho (LED)', 'INSC', '1 Semestre', '2023-2024', '2', 'ORGÁNICO', '3', 'ESTUDIANTE', 'Carlos', 'LANDING CARRERAS', '2023-06-10', '30', '401', '4', 'Laura', '2023-06-02', '1', 'Carlos', '2023-06-12', 'Interesada en programa de Derecho.');
+
 -- Consultas a tablas
 
 -- Consulta del nombre de los promotores Actual
@@ -310,21 +229,6 @@ SELECT
 FROM reasignaciones R
 JOIN Leads L ON R.LeadID = L.LeadID
 JOIN promotor P ON R.PromotorNuevo = P.promotorID;
-
--- Consulta la ubicacion de la ciudad de un LEAD 
-SELECT
-	L.NombreCompleto,
-    C.Nombre
-FROM ciudad C
-JOIN ubicacion U ON C.ciudadID = U.ciudadID
-JOIN leads L ON U.ubicacionID = L.ubicacionID;
-
--- Consulta de los Leads por el semestre de Ingreso
-SELECT
-	L.NombreCompleto,
-    SemI.Nombre
-FROM leads L
-JOIN semestreingreso SemI ON L.SemestreIngresoID = SemI.SemestreID;
 
 -- Consulta de carrera de Interes por Lead
 SELECT 
@@ -433,3 +337,4 @@ UPDATE leads SET EstatusInsc = 'INSC' WHERE LeadID= 2;
 
 //
 DELIMITER ;
+
