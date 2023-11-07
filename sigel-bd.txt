@@ -64,7 +64,6 @@ CREATE TABLE Leads (
     Comentarios TEXT,
     Contacto INT
     );
-    
 -- Crear la tabla "Campana"
 CREATE TABLE Campana (
     CampanaID INT AUTO_INCREMENT PRIMARY KEY,
@@ -134,6 +133,13 @@ CREATE TABLE Alumnos (
     FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID)
 );
 
+CREATE TABLE users(
+	idUser Int primary key auto_increment not null,
+    userName varchar(30) not null,
+    password varchar(30) not null,
+    role enum('admin','promotor','coordinador')
+);
+
 -- Agregar la relación entre Leads y CarreraInteres
 ALTER TABLE Leads
 ADD FOREIGN KEY (CarreraInteresID) REFERENCES CarreraInteres(CarreraID);
@@ -171,9 +177,6 @@ ALTER TABLE Leads
 ADD FOREIGN KEY (Contacto) REFERENCES Contacto(ContactoID);
 
 -- mis insert
-#reasignaciones
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '2', '2023-11-16 14:33:50');
-
 #contactoAlumno
 INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
 VALUES 
@@ -181,15 +184,6 @@ VALUES
 INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
 VALUES 
 (NULL, '2023-11-03', 'se concluyo la inscripción');
-
-#alumnos
-INSERT INTO `alumnos` (`AlumnoID`, `LeadID`, `NoRecibo`, `Matricula`, `Procedencia`, `TipoBaja`, `RSFacebook`, `RSInstagram`, `RSTiktok`, `RSLinkedln`, `RSTwiter`, `RSWhatsapp`, `RSOtro`, `ContactoID`, `Estatus`, `FechaBaja`, `CorreoInstitucional`) 
-VALUES 
-(NULL, '1', '100', 'M26', 'Local', 'Temporal', 'si', NULL, NULL, NULL, NULL, NULL, NULL, '2', '1', NULL, 'milton@correo.com');
-INSERT INTO `alumnos` (`AlumnoID`, `LeadID`, `NoRecibo`, `Matricula`, `Procedencia`, `TipoBaja`, `RSFacebook`, `RSInstagram`, `RSTiktok`, `RSLinkedln`, `RSTwiter`, `RSWhatsapp`, `RSOtro`, `ContactoID`, `Estatus`, `FechaBaja`, `CorreoInstitucional`) 
-VALUES 
-(NULL, '2', '101', 'B11', 'Foraneo', 'Definitiva', NULL, 'si', NULL, NULL, NULL, NULL, NULL, '2', '1', '2023-11-03', 'Bryan@correo.com');
-
 
 -- New Insert
 #campana
@@ -213,6 +207,9 @@ INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `Corre
 VALUES (NULL, 'JOHAN ANTONIO FIGUEROA FITZ', '7341282632', NULL, 'JOHANFIGUEROA2022@GMAIL.COM', NULL, '2023-05-18', '2001-05-11', 'CBTIS', 'Mexico', 'Morelos', 'Cuernavaca', 'AU-ALUMNO UNINTER', '1', 'LIC/ING', 'Mecatrónica (IME)', 'INS', '6 Semestre', '2023-2024', '1', 'PAUTA', '1', 'PERSONAL UNINTER', 'Hugo Mariaca', 'B_PERSONAL', '2023-06-19', '40', '406', '1', 'Ximena', '2023-06-16', NULL, NULL, NULL, 'Contesto llamda', NULL);
 INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `FechaNac`, `EscuelaProcedencia`, `NombrePais`, `NombreEstado`, `NombreCiudad`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngreso`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) 
 VALUES (NULL, 'Mariana Lopez', '5551234567', NULL, 'mariana@email.com', NULL, '2023-11-20', '2001-11-20', 'CBTIS', 'Mexico', 'Morelos', 'Cuernavaca', 'AU-ALUMNO UNINTER', '1', 'LIC/ING', 'Mecatrónica (IME)', 'INS', '6 Semestre', '2023-2024', '1', 'PAUTA', '1', 'PERSONAL UNINTER', 'Hugo Mariaca', 'B_PERSONAL', '2023-06-19', '40', '406', '1', 'Ximena', '2023-11-20', NULL, NULL, NULL, 'Contesto llamda', NULL);
+
+#reasignaciones
+INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '2', '2023-11-16 14:33:50');
 
 -- Consultas a tablas
 
@@ -337,4 +334,3 @@ UPDATE leads SET EstatusInsc = 'INSC' WHERE LeadID= 2;
 
 //
 DELIMITER ;
-
