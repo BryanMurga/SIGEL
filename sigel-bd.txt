@@ -39,7 +39,7 @@ CREATE TABLE Leads (
                   'Diseño de Modas y Tendencias Internacionales (LDM)','Diseño Industrial (LDI)','Diseño Gráfico (LDG)','Animación y Diseño Digital (LADD)',
                   'Licenciatura Ejecutiva en Gestión Empresarial(LEGE)','Licenciatura Ejecutiva en Mercadotecnia(LEMK)','Licenciatura Ejecutiva en Administración de Negocios Internacionales(LEANI)',
                   'Licenciatura Ejecutiva en Administración y Mercadotecnia (LEAM)','Licenciatura en Ejecutiva Mercadotecnia y Publicidad (LEMKP)','Licenciatura en Ejecutiva Comercio Exterior (LECE)', 'OTRO'),
-    EstatusInsc ENUM('INS','INZO','REZA', 'INSC', 'BAJA'),
+    EstatusInsc ENUM('INSO','REZA', 'INSC', 'BAJA', 'ARCHIVAR'),
     SemestreIngreso ENUM('1 Semestre','2 Semestre','3 Semestre','4 Semestre','5 Semestre','6 Semestre','7 Semestre', '8 Semestre',
     'Maestria','Doctorado','Licenciatura','Diplomados'),
     Ciclo VARCHAR(10),
@@ -51,7 +51,8 @@ CREATE TABLE Leads (
     NombreReferido VARCHAR(100),
     DondeObtDato ENUM('B_AFC','B_EMPRESAS','B_ESTRATEGIA VACACIONES EQUI','B_PERSONAL','B_POSGRADOS','BARRIDO BASE','BARRIDO EGRESADOS',
                       'BASE EGRESADOS','BASE FAMILIAR','CLIENGO','ESTRATEGIA EQUIPO MORADO','EXPO EDUCATIVA','REDES SOCIALES META FACEBOOK',
-                      'REDES SOCIALES META INSTAGRAM', 'LANDING','LANDING CARRERAS','LANDING FORMULARIO','LANDING TOT','LLAMADA UNINTER','OPEN SCHOOL ESPECIAL POR CONVENIO CON EMPRESA','VISITA UNINTER'),
+                      'REDES SOCIALES META INSTAGRAM', 'LANDING','LANDING CARRERAS','LANDING FORMULARIO','LANDING TOT','LLAMADA UNINTER','OPEN SCHOOL ESPECIAL POR CONVENIO CON EMPRESA',
+                      'VISITA UNINTER'),
     FechaInscripcion DATE,
     BecaOfrecida DECIMAL(10, 2),
     NumeroLista INT,
@@ -70,7 +71,6 @@ CREATE TABLE Campana (
     TipoCamp VARCHAR(255),
     Nombre VARCHAR(255)
 );
-
 -- Crear la tabla "CarreraInteres"
 CREATE TABLE CarreraInteres (
     CarreraID INT AUTO_INCREMENT PRIMARY KEY,
@@ -112,10 +112,18 @@ CREATE TABLE Alumnos (
     Nombre VARCHAR(50),
     Telefono varchar(20),
     EscuelaProcedencia varchar(50),
-    NombrePromotor varchar(50),
-    Promotor VARCHAR(50),
+    PromotorID INT(11),
     NoRecibo VARCHAR(50),
 	Matricula VARCHAR(50),
+    CarreraInscripcion ENUM('Psicología (LPS)','Derecho (LED)','Pedagogía (LPE)','Ciencias Políticas y Gestión Pública (LCP)',
+                  'Relaciones Internacionales (LRI)','Relaciones Internacionales y Economía (RIEC)','Relaciones Internacionales y Ciencias Políticas (RICP)',
+                  'Idiomas (LID)','Comunicación (LCO)','Comunicación Y Relaciones Públicas (CORP)','Civil (ICI)','Mecatrónica (IME)','Mecánica Industrial (IMI)',
+                  'Industrial y de Sistemas de Calidad (IISCA)','Sistemas Computacionales (ISC)','Ambiental (IAM)','Arquitectura(ARQ)','Comercio Exterior (LCE)',
+                  'Economía y Finanzas (LEF)','Mercadotecnia (LEM)','Mercadotecnia y Publicidad (LEMP)','Psicología Organizacional (LPO)','Administración de Empresas Turísticas (LAET)',
+                  'Administración de Empresas (LAE)','Administración de Negocios Internacionales (LANI)','Administración Pública (LAP)','Administración y Mercadotecnia (LAM)',
+                  'Diseño de Modas y Tendencias Internacionales (LDM)','Diseño Industrial (LDI)','Diseño Gráfico (LDG)','Animación y Diseño Digital (LADD)',
+                  'Licenciatura Ejecutiva en Gestión Empresarial(LEGE)','Licenciatura Ejecutiva en Mercadotecnia(LEMK)','Licenciatura Ejecutiva en Administración de Negocios Internacionales(LEANI)',
+                  'Licenciatura Ejecutiva en Administración y Mercadotecnia (LEAM)','Licenciatura en Ejecutiva Mercadotecnia y Publicidad (LEMKP)','Licenciatura en Ejecutiva Comercio Exterior (LECE)', 'OTRO'),
     Procedencia ENUM('Local', 'Foraneo'),
     TipoBaja ENUM('Temporal','Definitiva'),
     RSFacebook VARCHAR(50),
@@ -130,7 +138,8 @@ CREATE TABLE Alumnos (
     FechaBaja date,
     CorreoInstitucional varchar (50),
     FOREIGN KEY (LeadID) REFERENCES Leads(LeadID),
-    FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID)
+    FOREIGN KEY (ContactoID) REFERENCES ContactoAlumno(ContactoAlumnoID),
+    FOREIGN KEY (PromotorID) REFERENCES Promotor(PromotorID)
 );
 
 CREATE TABLE users(
@@ -139,6 +148,43 @@ CREATE TABLE users(
     password varchar(30) not null,
     role enum('admin','promotor','coordinador')
 );
+
+CREATE TABLE ListaComision (
+    ListaComisionID INT AUTO_INCREMENT PRIMARY KEY,
+    PromotorID INT,
+    FechaInscripcionAlumno DATE,
+    AlumnoID INT,
+    Status ENUM('INSC', 'INSO', 'REZA'),
+    CicloEscolar VARCHAR(10),
+    ProgramaID INT,
+    SemestreIngreso ENUM('1 Semestre', '2 Semestre', '3 Semestre', '4 Semestre', '5 Semestre', '6 Semestre', '7 Semestre', '8 Semestre',
+                         'Maestria', 'Doctorado', 'Licenciatura', 'Diplomados'),
+    Matricula VARCHAR(50),
+    NoRecibo VARCHAR(50),
+    PorcentajeBeca ENUM('0%', '5%', '10%', '15%', '20%', '25%', '30%', '35%', '40%', '45%', '50%', '55%', '60%', 'APOYO A TRABAJADOR', 'ORFANDAD', 'PATRONATO'),
+    TotalComision DECIMAL(10, 2),
+    EscuelaProcedencia VARCHAR(255),
+    Escuela ENUM('PUBLICA', 'PRIVADA'),
+    Pais VARCHAR(255),
+    Estado VARCHAR(255),
+    Municipio VARCHAR(255),
+    MedioDeContactoID INT,
+    CanalDeVenta ENUM('FACEBOOK', 'WHATSAPP', 'TELEMARKETING', 'CORREO', 'NO ESPECIFICA', 'PRESENCIAL'),
+    EsReferido ENUM('NINGUNO', 'PERSONAL UNINTER', 'ESTUDIANTE', 'FAMILIAR DE ALGUN ESTUDIANTE'),
+    PromocionInscripcion ENUM('FLASH PASS', 'SEMESTRE O AÑO AVANZADO', 'EGRESADO', 'NO PAGA COLEGIATURA EN DOS PARCIALIDADES', 'APOYO TRABAJADOR', 'CERO INSC PAGA 1RA COLEGIATURA',
+                              'PAGA INSCRIPCION SIN PROMOCION', 'OTRO'),
+    NumTelefonicoAlumno VARCHAR(20),
+    CorreoElectronicoProspecto VARCHAR(255),
+    FechaNacimientoProspecto DATE,
+    FOREIGN KEY (PromotorID) REFERENCES Promotor(PromotorID),
+    FOREIGN KEY (AlumnoID) REFERENCES Alumnos(AlumnoID),
+    FOREIGN KEY (ProgramaID) REFERENCES CarreraInteres(CarreraID),
+    FOREIGN KEY (MedioDeContactoID) REFERENCES MedioDeContacto(MedioID)
+);
+
+
+
+
 
 -- Agregar la relación entre Leads y CarreraInteres
 ALTER TABLE Leads
@@ -176,40 +222,6 @@ ADD FOREIGN KEY (PromotorNuevo) REFERENCES Promotor(PromotorID);
 ALTER TABLE Leads
 ADD FOREIGN KEY (Contacto) REFERENCES Contacto(ContactoID);
 
--- mis insert
-#contactoAlumno
-INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
-VALUES 
-(NULL, '2023-11-02', 'Se realizo un seguimiento de inscripción con el alumno');
-INSERT INTO `contactoalumno` (`ContactoAlumnoID`, `FechaContacto`, `Comentario`) 
-VALUES 
-(NULL, '2023-11-03', 'se concluyo la inscripción');
-
--- New Insert
-#campana
-INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'Beca especial', 'GENERACIÓN DE OPORTUNIDADES DE VENTA');
-INSERT INTO `campana` (`CampanaID`, `TipoCamp`, `Nombre`) VALUES (NULL, 'EQUIVALENCIAS', 'GENERACIÓN DE OPORTUNIDADES DE VENTA');
-
-#carrerainteres
-INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'INGENIERIA MECATRONICA');
-INSERT INTO `carrerainteres` (`CarreraID`, `Nombre`) VALUES (NULL, 'ADMINISTRACION DE NEGOCIOS INTERNACIONALES');
-
-#mediocontacto
-INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'BARRIDO BASE');
-INSERT INTO `mediodecontacto` (`MedioID`, `Nombre`) VALUES (NULL, 'LANDING CARRERAS');
-
-#promotor
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'ximena', 'ximena@correo.com', '123456', '777852632');
-INSERT INTO `promotor` (`PromotorID`, `Nombre`, `Correo`, `Passw`, `Telefono`) VALUES (NULL, 'Yanin', 'yanin@correo.com', '123456', '77458623');
-
-#leads
-INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `FechaNac`, `EscuelaProcedencia`, `NombrePais`, `NombreEstado`, `NombreCiudad`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngreso`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) 
-VALUES (NULL, 'JOHAN ANTONIO FIGUEROA FITZ', '7341282632', NULL, 'JOHANFIGUEROA2022@GMAIL.COM', NULL, '2023-05-18', '2001-05-11', 'CBTIS', 'Mexico', 'Morelos', 'Cuernavaca', 'AU-ALUMNO UNINTER', '1', 'LIC/ING', 'Mecatrónica (IME)', 'INS', '6 Semestre', '2023-2024', '1', 'PAUTA', '1', 'PERSONAL UNINTER', 'Hugo Mariaca', 'B_PERSONAL', '2023-06-19', '40', '406', '1', 'Ximena', '2023-06-16', NULL, NULL, NULL, 'Contesto llamda', NULL);
-INSERT INTO `leads` (`LeadID`, `NombreCompleto`, `Telefono`, `Telefono2`, `CorreoElectronico`, `CorreoElectronico2`, `FechaPrimerContacto`, `FechaNac`, `EscuelaProcedencia`, `NombrePais`, `NombreEstado`, `NombreCiudad`, `PSeguimiento`, `CarreraInteresID`, `Grado`, `Programa`, `EstatusInsc`, `SemestreIngreso`, `Ciclo`, `CampanaID`, `IsOrganic`, `MedioDeContactoID`, `TipoReferido`, `NombreReferido`, `DondeObtDato`, `FechaInscripcion`, `BecaOfrecida`, `NumeroLista`, `PromotorOriginal`, `NombrePromOrigi`, `FechaPromotorOriginal`, `PromotorActual`, `NombrePromAct`, `FechaPromotorActual`, `Comentarios`, `Contacto`) 
-VALUES (NULL, 'Mariana Lopez', '5551234567', NULL, 'mariana@email.com', NULL, '2023-11-20', '2001-11-20', 'CBTIS', 'Mexico', 'Morelos', 'Cuernavaca', 'AU-ALUMNO UNINTER', '1', 'LIC/ING', 'Mecatrónica (IME)', 'INS', '6 Semestre', '2023-2024', '1', 'PAUTA', '1', 'PERSONAL UNINTER', 'Hugo Mariaca', 'B_PERSONAL', '2023-06-19', '40', '406', '1', 'Ximena', '2023-11-20', NULL, NULL, NULL, 'Contesto llamda', NULL);
-
-#reasignaciones
-INSERT INTO `reasignaciones` (`ReasignacionID`, `LeadID`, `PromotorAnterior`, `PromotorNuevo`, `FechaReasignacion`) VALUES (NULL, '1', '1', '2', '2023-11-16 14:33:50');
 
 -- Consultas a tablas
 
